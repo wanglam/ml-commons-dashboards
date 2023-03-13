@@ -3,22 +3,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { schema } from '@osd/config-schema';
-
 import { PluginConfigDescriptor, PluginInitializerContext } from '../../../src/core/server';
+import { ConfigSchema, configSchema } from './config';
 import { MlCommonsPlugin } from './plugin';
+
+export const config: PluginConfigDescriptor = {
+  schema: configSchema,
+};
 
 // This exports static code and TypeScript types,
 // as well as, OpenSearch Dashboards Platform `plugin()` initializer.
 
-export function plugin(initializerContext: PluginInitializerContext) {
+export function plugin(initializerContext: PluginInitializerContext<ConfigSchema>) {
   return new MlCommonsPlugin(initializerContext);
 }
 
 export { MlCommonsPluginSetup, MlCommonsPluginStart } from './types';
-
-export const config: PluginConfigDescriptor = {
-  schema: schema.object({
-    enabled: schema.boolean({ defaultValue: false }),
-  }),
-};

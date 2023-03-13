@@ -22,12 +22,17 @@ import {
   modelRepositoryRouter,
 } from './routes';
 import { ModelService } from './services';
+import { ConfigSchema } from './config';
 
 export class MlCommonsPlugin implements Plugin<MlCommonsPluginSetup, MlCommonsPluginStart> {
   private readonly logger: Logger;
+  private openAIAPIKey: String;
 
-  constructor(initializerContext: PluginInitializerContext) {
+  constructor(initializerContext: PluginInitializerContext<ConfigSchema>) {
     this.logger = initializerContext.logger.get();
+    initializerContext.config.create().subscribe((config) => {
+      this.openAIAPIKey = config.openAIAPIKey;
+    });
   }
 
   public setup(core: CoreSetup) {
@@ -48,6 +53,7 @@ export class MlCommonsPlugin implements Plugin<MlCommonsPluginSetup, MlCommonsPl
     securityRouter(router);
     taskRouter(router);
     modelRepositoryRouter(router);
+    console.log('openAI API Key:', this.openAIAPIKey);
 
     return {};
   }
