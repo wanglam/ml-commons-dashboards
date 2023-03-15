@@ -21,3 +21,5 @@ export const TASK_API_ENDPOINT = `${API_PREFIX}/task`;
 
 export const MODEL_REPOSITORY_API_ENDPOINT = `${API_PREFIX}/model-repository`;
 export const MODEL_REPOSITORY_CONFIG_URL_API_ENDPOINT = `${MODEL_REPOSITORY_API_ENDPOINT}/config-url`;
+
+export const OPEN_AI_API_ENDPOINT = `${API_PREFIX}/open-ai`;

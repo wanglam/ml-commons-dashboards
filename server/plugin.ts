@@ -23,16 +23,16 @@ import {
 } from './routes';
 import { ModelService } from './services';
 import { ConfigSchema } from './config';
+import { openAIRouter } from './routes/openai_router';
 
 export class MlCommonsPlugin implements Plugin<MlCommonsPluginSetup, MlCommonsPluginStart> {
   private readonly logger: Logger;
-  private openAIAPIKey: String;
+  private readonly openAIAPIKey: String;
+  private readonly config$: any;
 
   constructor(initializerContext: PluginInitializerContext<ConfigSchema>) {
     this.logger = initializerContext.logger.get();
-    initializerContext.config.create().subscribe((config) => {
-      this.openAIAPIKey = config.openAIAPIKey;
-    });
+    this.config$ = initializerContext.config.create();
   }
 
   public setup(core: CoreSetup) {
@@ -53,7 +53,10 @@ export class MlCommonsPlugin implements Plugin<MlCommonsPluginSetup, MlCommonsPl
     securityRouter(router);
     taskRouter(router);
     modelRepositoryRouter(router);
-    console.log('openAI API Key:', this.openAIAPIKey);
+    this.config$.subscribe((config) => {
+      openAIRouter(router, config.openAIAPIKey);
+      console.log('openAI API Key:', config.openAIAPIKey);
+    });
 
     return {};
   }
