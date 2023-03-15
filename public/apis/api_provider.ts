@@ -6,6 +6,7 @@
 import { Model } from './model';
 import { ModelAggregate } from './model_aggregate';
 import { ModelRepository } from './model_repository';
+import { OpenAI } from './openai';
 import { Profile } from './profile';
 import { Security } from './security';
 import { Task } from './task';
@@ -17,6 +18,7 @@ const apiInstanceStore: {
   security: Security | undefined;
   task: Task | undefined;
   modelRepository: ModelRepository | undefined;
+  openAI: OpenAI | undefined;
 } = {
   model: undefined,
   modelAggregate: undefined,
@@ -24,6 +26,7 @@ const apiInstanceStore: {
   security: undefined,
   task: undefined,
   modelRepository: undefined,
+  openAI: undefined,
 };
 
 export class APIProvider {
@@ -33,6 +36,7 @@ export class APIProvider {
   public static getAPI(type: 'profile'): Profile;
   public static getAPI(type: 'security'): Security;
   public static getAPI(type: 'modelRepository'): ModelRepository;
+  public static getAPI(type: 'openAI'): OpenAI;
   public static getAPI(type: keyof typeof apiInstanceStore) {
     if (apiInstanceStore[type]) {
       return apiInstanceStore[type]!;
@@ -66,6 +70,11 @@ export class APIProvider {
       case 'modelRepository': {
         const newInstance = new ModelRepository();
         apiInstanceStore.modelRepository = newInstance;
+        return newInstance;
+      }
+      case 'openAI': {
+        const newInstance = new OpenAI();
+        apiInstanceStore.openAI = newInstance;
         return newInstance;
       }
     }

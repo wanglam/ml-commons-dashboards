@@ -3,28 +3,34 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { IRouter, opensearchDashboardsResponseFactory } from '../../../../src/core/server';
-import { OPEN_AI_API_ENDPOINT } from './constants';
+import { schema } from '@osd/config-schema';
 import { Configuration, OpenAIApi } from 'openai';
 
+import { IRouter, opensearchDashboardsResponseFactory } from '../../../../src/core/server';
+import { OPEN_AI_API_ENDPOINT } from './constants';
+
 export const openAIRouter = (router: IRouter, apiKey: string) => {
-  router.get(
+  router.post(
     {
       path: OPEN_AI_API_ENDPOINT,
-      validate: false,
+      validate: {
+        body: schema.object({
+          prompt: schema.string(),
+        }),
+      },
     },
-    async (context, request) => {
+    async (_context, request) => {
       try {
         const configuration = new Configuration({
           apiKey,
         });
         const openai = new OpenAIApi(configuration);
-        console.log('start completion');
         const completion = await openai.createCompletion({
           model: 'code-davinci-002',
-          prompt: 'Generate an opensearch query to find all books name contain foo.',
+          prompt: request.body.prompt,
           temperature: 0,
           max_tokens: 2048,
+          stop: '###',
         });
         return opensearchDashboardsResponseFactory.ok({ body: completion.data.choices });
       } catch (error) {

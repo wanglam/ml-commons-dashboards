@@ -9,4 +9,5 @@ export const routerPaths = {
   modelList: '/model-registry/model-list',
   overview: '/overview',
   modelGroup: '/model-registry/model/:id',
+  openAIQuery: '/openai-query',
 };

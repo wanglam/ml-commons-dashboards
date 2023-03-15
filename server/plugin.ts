@@ -27,7 +27,6 @@ import { openAIRouter } from './routes/openai_router';
 
 export class MlCommonsPlugin implements Plugin<MlCommonsPluginSetup, MlCommonsPluginStart> {
   private readonly logger: Logger;
-  private readonly openAIAPIKey: String;
   private readonly config$: any;
 
   constructor(initializerContext: PluginInitializerContext<ConfigSchema>) {

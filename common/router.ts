@@ -6,6 +6,7 @@
 import { ModelGroup } from '../public/components/model_group';
 import { ModelList } from '../public/components/model_list';
 import { Monitoring } from '../public/components/monitoring';
+import { OpenAIQuery } from '../public/components/openai_query';
 import { RegisterModelForm } from '../public/components/register_model/register_model';
 import { routerPaths } from './router_paths';
 
@@ -45,6 +46,12 @@ export const ROUTES: RouteConfig[] = [
     label: 'Model Group',
     Component: ModelGroup,
     nav: false,
+  },
+  {
+    path: routerPaths.openAIQuery,
+    label: 'OpenAI Query',
+    Component: OpenAIQuery,
+    nav: true,
   },
 ];
 
