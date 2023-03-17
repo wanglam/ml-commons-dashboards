@@ -281,6 +281,7 @@ export const RegisterModelForm = ({ defaultValues = DEFAULT_VALUES }: RegisterMo
         data-test-subj="mlCommonsPlugin-registerModelForm"
         onSubmit={form.handleSubmit(onSubmit, onError)}
         component="form"
+        style={{ margin: '0 auto', maxWidth: 1000 }}
       >
         <EuiPanel>
           {formHeader}
