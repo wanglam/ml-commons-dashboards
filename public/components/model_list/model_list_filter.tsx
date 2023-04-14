@@ -6,13 +6,15 @@
 import { EuiFlexItem, EuiFlexGroup, EuiFieldSearch, EuiFilterGroup } from '@elastic/eui';
 import React, { useCallback, useRef } from 'react';
 
+import { TagFilterValue } from '../common';
+
 import { TagFilter } from './tag_filter';
 import { OwnerFilter } from './owner_filter';
 import { StageFilter } from './stage_filter';
 
 export interface ModelListFilterFilterValue {
   search?: string;
-  tag: string[];
+  tag: TagFilterValue[];
   owner: string[];
   stage: string[];
 }
@@ -35,7 +37,7 @@ export const ModelListFilter = ({
     onChangeRef.current({ ...valueRef.current, search });
   }, []);
 
-  const handleTagChange = useCallback((tag: string[]) => {
+  const handleTagChange = useCallback((tag: TagFilterValue[]) => {
     onChangeRef.current({ ...valueRef.current, tag });
   }, []);
 
