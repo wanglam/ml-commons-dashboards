@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { EuiFlexItem, EuiFlexGroup, EuiFieldSearch, EuiFilterGroup } from '@elastic/eui';
+import { EuiFlexItem, EuiFlexGroup, EuiFieldSearch, EuiFilterGroup, EuiSpacer } from '@elastic/eui';
 import React, { useCallback, useRef } from 'react';
 
 import { TagFilterValue } from '../common';
@@ -11,6 +11,7 @@ import { TagFilterValue } from '../common';
 import { TagFilter } from './tag_filter';
 import { OwnerFilter } from './owner_filter';
 import { StageFilter } from './stage_filter';
+import { SelectedTagFiltersPanel } from '../common/selected_tag_filter_panel';
 
 export interface ModelListFilterFilterValue {
   search?: string;
@@ -68,6 +69,12 @@ export const ModelListFilter = ({
           </EuiFilterGroup>
         </EuiFlexItem>
       </EuiFlexGroup>
+      {value.tag.length > 0 && (
+        <>
+          <EuiSpacer size="m" />
+          <SelectedTagFiltersPanel tagFilters={value.tag} onTagFiltersChange={handleTagChange} />
+        </>
+      )}
     </>
   );
 };
