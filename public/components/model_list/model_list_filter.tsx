@@ -13,6 +13,21 @@ import { OwnerFilter } from './owner_filter';
 import { StageFilter } from './stage_filter';
 import { SelectedTagFiltersPanel } from '../common/selected_tag_filter_panel';
 
+const removeDuplicateTag = (tagFilters: TagFilterValue[]) => {
+  const generateTagKey = (tagFilter: TagFilterValue) =>
+    `${tagFilter.name}${tagFilter.operator}${tagFilter.value.toString()}`;
+  const existsTagMap: { [key: string]: boolean } = {};
+  return tagFilters.filter((tagFilter) => {
+    const key = generateTagKey(tagFilter);
+    if (!existsTagMap[key]) {
+      existsTagMap[key] = true;
+      return true;
+    }
+
+    return false;
+  });
+};
+
 export interface ModelListFilterFilterValue {
   search?: string;
   tag: TagFilterValue[];
@@ -39,7 +54,7 @@ export const ModelListFilter = ({
   }, []);
 
   const handleTagChange = useCallback((tag: TagFilterValue[]) => {
-    onChangeRef.current({ ...valueRef.current, tag });
+    onChangeRef.current({ ...valueRef.current, tag: removeDuplicateTag(tag) });
   }, []);
 
   const handleOwnerChange = useCallback((owner: string[]) => {

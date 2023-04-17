@@ -95,6 +95,7 @@ const SelectedTagFilterItem = ({
         }
         isOpen={isPopoverOpen}
         closePopover={closePopover}
+        initialFocus={false}
       >
         <TagFilterPopoverContent
           tagKeys={tagKeys}
@@ -144,6 +145,7 @@ export const SelectedTagFiltersPanel = ({
           onChange={handleChange}
           onRemove={handleRemove}
           tagKeys={tagKeys}
+          key={`${tagFilter.name}${tagFilter.operator}${tagFilter.value.toString()}${index}`}
         />
       ))}
     </EuiFlexGroup>
