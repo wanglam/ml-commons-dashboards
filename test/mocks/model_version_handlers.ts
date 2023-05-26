@@ -116,8 +116,15 @@ export const modelVersionHandlers = [
     );
   }),
 
-  rest.get(`${MODEL_VERSION_API_ENDPOINT}/:modelId`, (req, res, ctx) => {
-    const [modelId, ..._restParts] = req.url.pathname.split('/').reverse();
-    return res(ctx.status(200), ctx.json(modelVersions.find((model) => model.id === modelId)));
+  rest.get(`${MODEL_VERSION_API_ENDPOINT}/:id`, (req, res, ctx) => {
+    const [id, ..._restParts] = req.url.pathname.split('/').reverse();
+    return res(
+      ctx.status(200),
+      ctx.json(modelVersions.find((modelVersion) => modelVersion.id === id))
+    );
+  }),
+
+  rest.delete(`${MODEL_VERSION_API_ENDPOINT}/:id`, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json({}));
   }),
 ];
