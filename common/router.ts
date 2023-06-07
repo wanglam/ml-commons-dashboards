@@ -9,6 +9,7 @@ import { Monitoring } from '../public/components/monitoring';
 import { RegisterModelForm } from '../public/components/register_model/register_model';
 import { ModelVersion } from '../public/components/model_version';
 import { routerPaths } from './router_paths';
+import { CreateWorkspace } from '../public/components/create_workspace';
 
 interface RouteConfig {
   path: string;
@@ -48,9 +49,9 @@ export const ROUTES: RouteConfig[] = [
     nav: false,
   },
   {
-    path: routerPaths.modelVersion,
+    path: '/create-workspace',
     label: 'Model Version',
-    Component: ModelVersion,
+    Component: CreateWorkspace,
     nav: false,
   },
 ];
