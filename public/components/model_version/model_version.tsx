@@ -39,15 +39,16 @@ export const ModelVersion = () => {
     APIProvider.getAPI('modelVersion').getOne,
     modelVersionId
   );
-  const [modelInfo, setModelInfo] = useState<{ version: string; name: string }>();
+  const [selectedModelVersionInfo, setSelectedModelVersionInfo] = useState<{
+    version: string;
+    modelId: string;
+  }>();
   const history = useHistory();
-  const modelName = modelVersionData?.name;
-  const modelVersion = modelVersionData?.model_version;
   const form = useForm<ModelVersionFormData>();
 
   const onVersionChange = useCallback(
     ({ newVersion, newId }: { newVersion: string; newId: string }) => {
-      setModelInfo((prevModelInfo) =>
+      setSelectedModelVersionInfo((prevModelInfo) =>
         prevModelInfo ? { ...prevModelInfo, version: newVersion } : prevModelInfo
       );
       history.push(generatePath(routerPaths.modelVersion, { id: newId }));
@@ -66,19 +67,22 @@ export const ModelVersion = () => {
   }, [modelVersionData?.model_id]);
 
   useEffect(() => {
-    if (!modelName || !modelVersion) {
+    if (!modelVersionData) {
       return;
     }
-    setModelInfo((prevModelInfo) => {
-      if (prevModelInfo?.name === modelName && prevModelInfo?.version === modelVersion) {
+    setSelectedModelVersionInfo((prevModelInfo) => {
+      if (
+        prevModelInfo?.version === modelVersionData.model_version &&
+        prevModelInfo?.modelId === modelVersionData.model_id
+      ) {
         return prevModelInfo;
       }
       return {
-        name: modelName,
-        version: modelVersion,
+        version: modelVersionData.model_version,
+        modelId: modelVersionData.model_id,
       };
     });
-  }, [modelName, modelVersion]);
+  }, [modelVersionData]);
 
   useEffect(() => {
     if (modelVersionData) {
@@ -140,7 +144,7 @@ export const ModelVersion = () => {
 
   return (
     <FormProvider {...form}>
-      {!modelInfo ? (
+      {!selectedModelVersionInfo || !modelData ? (
         <>
           <EuiLoadingSpinner data-test-subj="modelVersionLoadingSpinner" />
           <EuiSpacer size="m" />
@@ -149,11 +153,13 @@ export const ModelVersion = () => {
         <EuiPageHeader
           pageTitle={
             <EuiFlexGroup gutterSize="m" responsive={false} alignItems="center">
-              <EuiFlexItem grow={false}>{modelInfo.name}</EuiFlexItem>
+              <EuiFlexItem grow={false}>{modelData.name}</EuiFlexItem>
               <EuiFlexItem grow={false}>
                 <VersionToggler
-                  modelName={modelInfo.name}
-                  currentVersion={modelInfo.version}
+                  modelId={selectedModelVersionInfo.modelId}
+                  latestVersion={modelData.latest_version}
+                  currentVersion={selectedModelVersionInfo.version}
+                  currentVersionId={modelVersionId}
                   onVersionChange={onVersionChange}
                 />
               </EuiFlexItem>
@@ -165,10 +171,10 @@ export const ModelVersion = () => {
           }}
           rightSideItems={[
             <EuiButton fill>Register version</EuiButton>,
-            modelVersionData && (
+            modelData && modelVersionData && (
               <ToggleDeployButton
                 onComplete={reload}
-                modelName={modelVersionData.name}
+                modelName={modelData.name}
                 modelVersion={modelVersionData.model_version}
                 modelState={modelVersionData.model_state}
                 modelVersionId={modelVersionId}
@@ -197,7 +203,7 @@ export const ModelVersion = () => {
           modelVersionId={modelVersionData?.id}
           createdTime={modelVersionData?.created_time}
           lastUpdatedTime={modelVersionData?.last_updated_time}
-          owner={modelData?.owner.name}
+          owner={modelData?.owner?.name}
         />
       )}
       <EuiSpacer size="m" />

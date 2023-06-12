@@ -101,20 +101,20 @@ const getModelBreadcrumbs = (basename: string, matchedParams: {}) => {
 const getModelVersionBreadcrumbs = (basename: string, matchedParams: {}) => {
   const baseModelRegistryBreadcrumbs = getBasicModelRegistryBreadcrumbs(basename);
   if ('id' in matchedParams && typeof matchedParams.id === 'string') {
-    const modelId = matchedParams.id;
+    const modelVersionId = matchedParams.id;
     return {
       staticBreadcrumbs: baseModelRegistryBreadcrumbs,
       // TODO: Change to model group API
       asyncBreadcrumbsLoader: () =>
         APIProvider.getAPI('modelVersion')
-          .getOne(modelId)
+          .getOne(modelVersionId)
           .then(
             (model) =>
               [
                 {
                   text: model.name,
                   // TODO: Change to use model group id
-                  href: joinUrl(basename, generatePath(routerPaths.model, { id: modelId })),
+                  href: joinUrl(basename, generatePath(routerPaths.model, { id: model.model_id })),
                 },
                 {
                   text: `Version ${model.model_version}`,
