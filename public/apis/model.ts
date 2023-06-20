@@ -16,6 +16,12 @@ export interface ModelSearchItem {
   current_worker_node_count: number;
   planning_worker_node_count: number;
   planning_worker_nodes: string[];
+  model_config?: {
+    all_config?: string;
+    embedding_dimension: number;
+    framework_type: string;
+    model_type: string;
+  };
 }
 
 export interface ModelSearchResponse {
@@ -34,5 +40,9 @@ export class Model {
     return InnerHttpProvider.getHttp().get<ModelSearchResponse>(MODEL_API_ENDPOINT, {
       query,
     });
+  }
+
+  public getOne(id: string) {
+    return InnerHttpProvider.getHttp().get<ModelSearchItem>(`${MODEL_API_ENDPOINT}/${id}`);
   }
 }

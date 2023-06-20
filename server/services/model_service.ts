@@ -74,4 +74,17 @@ export class ModelService {
       total_models: hits.total.value,
     };
   }
+
+  public static async getOne({ id, client }: { id: string; client: IScopedClusterClient }) {
+    const modelSource = (
+      await client.asCurrentUser.transport.request({
+        method: 'GET',
+        path: `${MODEL_BASE_API}/${id}`,
+      })
+    ).body;
+    return {
+      id,
+      ...modelSource,
+    };
+  }
 }

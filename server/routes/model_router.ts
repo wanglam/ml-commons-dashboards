@@ -62,4 +62,26 @@ export const modelRouter = (router: IRouter) => {
       }
     }
   );
+
+  router.get(
+    {
+      path: `${MODEL_API_ENDPOINT}/{id}`,
+      validate: {
+        params: schema.object({
+          id: schema.string(),
+        }),
+      },
+    },
+    async (context, request) => {
+      try {
+        const model = await ModelService.getOne({
+          client: context.core.opensearch.client,
+          id: request.params.id,
+        });
+        return opensearchDashboardsResponseFactory.ok({ body: model });
+      } catch (err) {
+        return opensearchDashboardsResponseFactory.badRequest({ body: err.message });
+      }
+    }
+  );
 };
