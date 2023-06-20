@@ -7,7 +7,11 @@ import { schema } from '@osd/config-schema';
 import { MODEL_STATE } from '../../common';
 import { IRouter, opensearchDashboardsResponseFactory } from '../../../../src/core/server';
 import { ModelService } from '../services';
-import { MODEL_API_ENDPOINT } from './constants';
+import {
+  MODEL_API_ENDPOINT,
+  MODEL_LOAD_API_ENDPOINT,
+  MODEL_UNLOAD_API_ENDPOINT,
+} from './constants';
 
 const modelSortQuerySchema = schema.oneOf([
   schema.literal('name-asc'),
@@ -79,6 +83,50 @@ export const modelRouter = (router: IRouter) => {
           id: request.params.id,
         });
         return opensearchDashboardsResponseFactory.ok({ body: model });
+      } catch (err) {
+        return opensearchDashboardsResponseFactory.badRequest({ body: err.message });
+      }
+    }
+  );
+
+  router.post(
+    {
+      path: `${MODEL_LOAD_API_ENDPOINT}/{id}`,
+      validate: {
+        params: schema.object({
+          id: schema.string(),
+        }),
+      },
+    },
+    async (context, request) => {
+      try {
+        const result = await ModelService.load({
+          client: context.core.opensearch.client,
+          id: request.params.id,
+        });
+        return opensearchDashboardsResponseFactory.ok({ body: result });
+      } catch (err) {
+        return opensearchDashboardsResponseFactory.badRequest({ body: err.message });
+      }
+    }
+  );
+
+  router.post(
+    {
+      path: `${MODEL_UNLOAD_API_ENDPOINT}/{id}`,
+      validate: {
+        params: schema.object({
+          id: schema.string(),
+        }),
+      },
+    },
+    async (context, request) => {
+      try {
+        const result = await ModelService.unload({
+          client: context.core.opensearch.client,
+          id: request.params.id,
+        });
+        return opensearchDashboardsResponseFactory.ok({ body: result });
       } catch (err) {
         return opensearchDashboardsResponseFactory.badRequest({ body: err.message });
       }

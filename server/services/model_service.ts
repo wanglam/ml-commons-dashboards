@@ -87,4 +87,22 @@ export class ModelService {
       ...modelSource,
     };
   }
+
+  public static async load({ id, client }: { id: string; client: IScopedClusterClient }) {
+    return (
+      await client.asCurrentUser.transport.request({
+        method: 'POST',
+        path: `${MODEL_BASE_API}/${id}/_load`,
+      })
+    ).body;
+  }
+
+  public static async unload({ id, client }: { id: string; client: IScopedClusterClient }) {
+    return (
+      await client.asCurrentUser.transport.request({
+        method: 'POST',
+        path: `${MODEL_BASE_API}/${id}/_unload`,
+      })
+    ).body;
+  }
 }
