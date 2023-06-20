@@ -18,9 +18,11 @@ import {
 } from '@elastic/eui';
 import { APIProvider } from '../../apis/api_provider';
 import { useFetcher } from '../../hooks/use_fetcher';
-import { NodesTable } from './nodes_table';
-import { CopyableText } from '../common';
 import { ModelDeploymentProfile } from '../../apis/profile';
+import { CopyableText } from '../common';
+
+import { ModelConfiguration } from './model_configuration';
+import { NodesTable } from './nodes_table';
 
 export interface INode {
   id: string;
@@ -96,6 +98,7 @@ export const PreviewPanel = ({ onClose, model }: Props) => {
         </EuiTitle>
       </EuiFlyoutHeader>
       <EuiFlyoutBody>
+        <ModelConfiguration id={id} />
         <EuiDescriptionList>
           <EuiDescriptionListTitle style={{ fontSize: '14px' }}>Model ID</EuiDescriptionListTitle>
           <EuiDescriptionListDescription>
