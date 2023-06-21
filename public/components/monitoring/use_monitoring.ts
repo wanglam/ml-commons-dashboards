@@ -63,10 +63,13 @@ const fetchDeployedModels = async (params: Params) => {
         current_worker_node_count: workerCount,
         planning_worker_node_count: planningCount,
         planning_worker_nodes: planningWorkerNodes,
+        model_version: modelVersion,
+        model_state: modelState,
       }) => {
         return {
           id,
           name,
+          model_state: modelState,
           respondingNodesCount: workerCount,
           planningNodesCount: planningCount,
           notRespondingNodesCount:
@@ -74,6 +77,7 @@ const fetchDeployedModels = async (params: Params) => {
               ? planningCount - workerCount
               : undefined,
           planningWorkerNodes,
+          version: modelVersion,
         };
       }
     ),

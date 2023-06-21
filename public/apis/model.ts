@@ -15,7 +15,7 @@ export interface ModelSearchItem {
   id: string;
   name: string;
   algorithm: string;
-  model_state: string;
+  model_state: MODEL_STATE;
   model_version: string;
   current_worker_node_count: number;
   planning_worker_node_count: number;
@@ -53,6 +53,7 @@ export class Model {
     size: number;
     states?: MODEL_STATE[];
     nameOrId?: string;
+    ids?: string[];
   }) {
     return InnerHttpProvider.getHttp().get<ModelSearchResponse>(MODEL_API_ENDPOINT, {
       query,

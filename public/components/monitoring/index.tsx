@@ -117,6 +117,8 @@ export const Monitoring = () => {
           onChange={handleTableChange}
           onViewDetail={handleViewDetail}
           onResetSearchClick={onResetSearch}
+          onModelDeployed={reload}
+          onModelUndeployed={reload}
         />
         {previewModel && <PreviewPanel model={previewModel} onClose={onCloseModelPreview} />}
       </EuiPanel>

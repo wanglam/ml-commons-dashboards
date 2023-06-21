@@ -19,9 +19,13 @@ import {
   EuiLink,
   EuiText,
   EuiToolTip,
+  EuiFlexGroup,
+  EuiFlexItem,
 } from '@elastic/eui';
 
 import { MODEL_STATE } from '../../../common';
+
+import { ModelDeploymentTableDeployUndeployButton } from './model_deployment_table_deploy_undeploy_button';
 
 export interface ModelDeploymentTableSort {
   field: 'name' | 'model_state' | 'id';
@@ -36,7 +40,8 @@ export interface ModelDeploymentTableCriteria {
 export interface ModelDeploymentItem {
   id: string;
   name: string;
-  model_state?: MODEL_STATE;
+  version: string;
+  model_state: MODEL_STATE;
   respondingNodesCount: number | undefined;
   planningNodesCount: number | undefined;
   notRespondingNodesCount: number | undefined;
@@ -56,6 +61,8 @@ export interface ModelDeploymentTableProps {
   onChange: (criteria: ModelDeploymentTableCriteria) => void;
   onViewDetail?: (modelDeploymentItem: ModelDeploymentItem) => void;
   onResetSearchClick?: () => void;
+  onModelDeployed: (id: string) => void;
+  onModelUndeployed: (id: string) => void;
 }
 
 export const ModelDeploymentTable = ({
@@ -67,6 +74,8 @@ export const ModelDeploymentTable = ({
   onChange,
   onViewDetail,
   onResetSearchClick,
+  onModelDeployed,
+  onModelUndeployed,
 }: ModelDeploymentTableProps) => {
   const columns = useMemo(
     () => [
@@ -151,21 +160,35 @@ export const ModelDeploymentTable = ({
         width: '10%',
         render: (id: string, modelDeploymentItem: ModelDeploymentItem) => {
           return (
-            <EuiToolTip content="View status details">
-              <EuiButtonIcon
-                onClick={() => {
-                  onViewDetail?.(modelDeploymentItem);
-                }}
-                role="button"
-                aria-label="view detail"
-                iconType="inspect"
-              />
-            </EuiToolTip>
+            <EuiFlexGroup alignItems="center" justifyContent="flexEnd" gutterSize="s">
+              <EuiFlexItem grow={false}>
+                <ModelDeploymentTableDeployUndeployButton
+                  id={id}
+                  name={modelDeploymentItem.name}
+                  state={modelDeploymentItem.model_state!}
+                  version={modelDeploymentItem.version}
+                  onDeployed={onModelDeployed}
+                  onUndeployed={onModelUndeployed}
+                />
+              </EuiFlexItem>
+              <EuiFlexItem grow={false}>
+                <EuiToolTip content="View status details">
+                  <EuiButtonIcon
+                    onClick={() => {
+                      onViewDetail?.(modelDeploymentItem);
+                    }}
+                    role="button"
+                    aria-label="view detail"
+                    iconType="inspect"
+                  />
+                </EuiToolTip>
+              </EuiFlexItem>
+            </EuiFlexGroup>
           );
         },
       },
     ],
-    [onViewDetail]
+    [onViewDetail, onModelDeployed, onModelUndeployed]
   );
   const sorting = useMemo(() => ({ sort }), [sort]);
 

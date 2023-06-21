@@ -55,3 +55,21 @@ export type ModelSearchSort =
   | 'model_state-asc'
   | 'model_state-desc'
   | 'id-desc';
+
+export const isModelDeployable = (state: MODEL_STATE) => {
+  if (
+    state === MODEL_STATE.unloaded ||
+    state === MODEL_STATE.uploaded ||
+    state === MODEL_STATE.loadFailed
+  ) {
+    return true;
+  }
+  return false;
+};
+
+export const isModelUndeployable = (state: MODEL_STATE) => {
+  if (state === MODEL_STATE.loaded || state === MODEL_STATE.partiallyLoaded) {
+    return true;
+  }
+  return false;
+};
