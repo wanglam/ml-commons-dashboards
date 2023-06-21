@@ -9,12 +9,15 @@ import { generateTermQuery } from './query';
 export const generateModelSearchQuery = ({
   states,
   nameOrId,
+  ids,
 }: {
   states?: MODEL_STATE[];
   nameOrId?: string;
+  ids?: string[];
 }) => ({
   bool: {
     must: [
+      ...(ids ? [{ ids: { values: ids } }] : []),
       ...(states ? [generateTermQuery('model_state', states)] : []),
       ...(nameOrId
         ? [

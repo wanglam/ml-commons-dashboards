@@ -24,3 +24,5 @@ export const MODEL_BASE_API = `${API_ROUTE_PREFIX}/models`;
 export const MODEL_SEARCH_API = `${MODEL_BASE_API}/_search`;
 
 export const MODEL_INDEX = '.plugins-ml-model';
+
+export const TASK_BASE_API = `${API_ROUTE_PREFIX}/tasks`;

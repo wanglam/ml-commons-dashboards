@@ -11,3 +11,5 @@ export const MODEL_UNLOAD_API_ENDPOINT = `${MODEL_API_ENDPOINT}/unload`;
 
 export const PROFILE_API_ENDPOINT = `${API_PREFIX}/profile`;
 export const DEPLOYED_MODEL_PROFILE_API_ENDPOINT = `${PROFILE_API_ENDPOINT}/deployed-model`;
+
+export const TASK_API_ENDPOINT = `${API_PREFIX}/task`;

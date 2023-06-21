@@ -43,6 +43,7 @@ export class ModelService {
     sort?: ModelSearchSort[];
     states?: MODEL_STATE[];
     nameOrId?: string;
+    ids?: string[];
   }) {
     const {
       body: { hits },

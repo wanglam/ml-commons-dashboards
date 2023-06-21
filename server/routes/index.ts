@@ -5,3 +5,4 @@
 
 export { modelRouter } from './model_router';
 export { profileRouter } from './profile_router';
+export { taskRouter } from './task_router';

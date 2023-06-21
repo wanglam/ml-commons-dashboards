@@ -46,11 +46,12 @@ export const modelRouter = (router: IRouter) => {
           ),
           states: schema.maybe(schema.oneOf([schema.arrayOf(modelStateSchema), modelStateSchema])),
           nameOrId: schema.maybe(schema.string()),
+          ids: schema.maybe(schema.oneOf([schema.arrayOf(schema.string()), schema.string()])),
         }),
       },
     },
     async (context, request) => {
-      const { from, size, sort, states, nameOrId } = request.query;
+      const { from, size, sort, states, nameOrId, ids } = request.query;
       try {
         const payload = await ModelService.search({
           client: context.core.opensearch.client,
@@ -59,6 +60,7 @@ export const modelRouter = (router: IRouter) => {
           sort: typeof sort === 'string' ? [sort] : sort,
           states: typeof states === 'string' ? [states] : states,
           nameOrId,
+          ids: typeof ids === 'string' ? [ids] : ids,
         });
         return opensearchDashboardsResponseFactory.ok({ body: payload });
       } catch (err) {
