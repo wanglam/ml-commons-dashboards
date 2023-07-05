@@ -43,6 +43,7 @@ import { ArtifactPanel } from './artifact';
 import { ConfigurationPanel } from './model_configuration';
 import { ModelTagsPanel } from './model_tags';
 import { submitModelWithFile, submitModelWithURL } from './register_model_api';
+import { ModelAccessControl } from './model_access_control';
 
 const DEFAULT_VALUES = {
   name: '',
@@ -97,6 +98,7 @@ export const RegisterModelForm = ({ defaultValues = DEFAULT_VALUES }: RegisterMo
       : [
           ...(registerToModelId ? [] : [ModelOverviewTitle]),
           ...(registerToModelId ? [] : [ModelDetailsPanel]),
+          ModelAccessControl,
           ...(registerToModelId ? [] : [ModelTagsPanel]),
           ...(registerToModelId ? [] : [FileAndVersionTitle]),
           ArtifactPanel,
