@@ -13,9 +13,6 @@ const MODEL = {
   id: 'id1',
   name: 'test',
   planningWorkerNodes: ['node-1', 'node-2', 'node-3'],
-  connector: {
-    name: 'Connector',
-  },
 };
 
 function setup({ model = MODEL, onClose = jest.fn() }) {
