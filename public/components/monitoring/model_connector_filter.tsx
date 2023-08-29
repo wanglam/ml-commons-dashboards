@@ -60,6 +60,7 @@ export const ModelConnectorFilter = ({
 
   return (
     <OptionsFilter
+      id="modelConnectorNameFilter"
       name="Connector name"
       searchPlaceholder="Search"
       options={options}
