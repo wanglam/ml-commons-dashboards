@@ -44,7 +44,7 @@ export const ConnectorDetails = (props: { name?: string; id?: string; descriptio
               {id ? (
                 <CopyableText text={id} iconLeft={false} tooltipText="Copy connector ID" />
               ) : (
-                '-'
+                '\u2014'
               )}
             </EuiDescriptionListDescription>
           </EuiFlexItem>
